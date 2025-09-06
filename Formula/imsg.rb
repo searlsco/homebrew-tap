@@ -6,6 +6,11 @@ class Imsg < Formula
   license "MIT"
   head "https://github.com/searlsco/imsg.git", branch: "main"
 
+  livecheck do
+    url :stable
+    regex(/^v?(\d+(?:\.\d+)+)$/i)
+  end
+
   depends_on "ruby@3"
 
   def install
@@ -26,7 +31,7 @@ class Imsg < Formula
     # Rewrite shebang to brew-ruby. See how this is done for python formulae:
     #   - https://rubydoc.brew.sh/Utils/Shebang.html#rewrite_shebang-class_method
     #   - https://rubydoc.brew.sh/Language/Python/Shebang.html#detected_python_shebang-class_method
-    inreplace libexec/"bin/#{name}", %r{^#!.*ruby( |$)}, "#!#{ruby}\\1"
+    inreplace libexec/"bin/#{name}", %r{/^#!.*ruby( |$)/}, "#!#{ruby}\\1"
 
     # Expose the rewritten script (no PATH tricks needed now)
     bin.write_exec_script libexec/"bin/#{name}"
@@ -35,10 +40,5 @@ class Imsg < Formula
   test do
     output = shell_output("#{bin}/#{name} --help")
     assert_match "imsg export [options]", output
-  end
-
-  livecheck do
-    url :stable
-    regex(/^v?(\d+(?:\.\d+)+)$/i)
   end
 end
