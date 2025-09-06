@@ -12,29 +12,45 @@ class Imsg < Formula
   end
 
   depends_on "ruby@3"
+  depends_on "sqlite"
 
   def install
-    # Ensure Bundler runs with brewed Ruby at build time
+    # Ensure Bundler uses brewed Ruby during build
     ENV.prepend_path "PATH", Formula["ruby@3"].opt_bin
 
-    # Keep project tree intact so `require_relative '../lib/...'` works.
+    # Keep project tree intact so require_relative works
     libexec.install Dir["*"]
 
+    # Ensure the repo-provided executable exists and is executable
+    app_exec = libexec/"bin/imsg"
+    if app_exec.exist?
+      app_exec.chmod 0755
+    end
+
+    # Vendor gems under libexec so the keg is self-contained
+    ENV["BUNDLE_WITHOUT"] = "development:test"
+    ENV["BUNDLE_PATH"] = (libexec/"vendor/bundle").to_s
+    ENV["BUNDLE_BIN"] = (libexec/"bin").to_s
+
+    ENV["bundle_build__sqlite3"] = "--with-sqlite3-dir=#{Formula["sqlite"].opt_prefix}"
+
     cd libexec do
-      system "bundle", "config", "set", "path", libexec
-      system "bundle", "config", "set", "without", "development test"
+      system "bundle", "config", "set", "path", ENV["BUNDLE_PATH"]
+      system "bundle", "config", "set", "without", ENV["BUNDLE_WITHOUT"]
+      system "bundle", "config", "set", "bin", ENV["BUNDLE_BIN"]
       system "bundle", "install"
     end
 
-    ruby = Formula["ruby@3"].opt_bin/"ruby"
-
-    # Rewrite shebang to brew-ruby. See how this is done for python formulae:
-    #   - https://rubydoc.brew.sh/Utils/Shebang.html#rewrite_shebang-class_method
-    #   - https://rubydoc.brew.sh/Language/Python/Shebang.html#detected_python_shebang-class_method
-    inreplace libexec/"bin/#{name}", /^#!.*ruby( |$)/, "#!#{ruby}\\1"
-
-    # Expose the rewritten script (no PATH tricks needed now)
-    bin.write_exec_script libexec/"bin/#{name}"
+    # Create a wrapper in bin/ that sets up env and calls the repo's bin/imsg
+    env = {
+      GEM_HOME: ENV["BUNDLE_PATH"],
+      GEM_PATH: ENV["BUNDLE_PATH"],
+      BUNDLE_GEMFILE: (libexec/"Gemfile").to_s,
+      RUBYLIB: (libexec/"lib").to_s,
+      PATH: "#{Formula["ruby@3"].opt_bin}:$PATH"
+    }
+    # Always write the wrapper so Homebrew links a real executable under keg/bin
+    (bin/"imsg").write_env_script libexec/"bin/imsg", env
   end
 
   test do
