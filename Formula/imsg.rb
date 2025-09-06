@@ -36,4 +36,9 @@ class Imsg < Formula
     output = shell_output("#{bin}/#{name} --help")
     assert_match "imsg export [options]", output
   end
+
+  livecheck do
+    url :stable
+    regex(/^v?(\d+(?:\.\d+)+)$/i)
+  end
 end
