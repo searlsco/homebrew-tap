@@ -23,9 +23,7 @@ class Imsg < Formula
 
     # Ensure the repo-provided executable exists and is executable
     app_exec = libexec/"bin/imsg"
-    if app_exec.exist?
-      app_exec.chmod 0755
-    end
+    app_exec.chmod 0755 if app_exec.exist?
 
     # Vendor gems under libexec so the keg is self-contained
     ENV["BUNDLE_WITHOUT"] = "development:test"
@@ -43,11 +41,11 @@ class Imsg < Formula
 
     # Create a wrapper in bin/ that sets up env and calls the repo's bin/imsg
     env = {
-      GEM_HOME: ENV["BUNDLE_PATH"],
-      GEM_PATH: ENV["BUNDLE_PATH"],
+      GEM_HOME:       ENV["BUNDLE_PATH"],
+      GEM_PATH:       ENV["BUNDLE_PATH"],
       BUNDLE_GEMFILE: (libexec/"Gemfile").to_s,
-      RUBYLIB: (libexec/"lib").to_s,
-      PATH: "#{Formula["ruby@3"].opt_bin}:$PATH"
+      RUBYLIB:        (libexec/"lib").to_s,
+      PATH:           "#{Formula["ruby@3"].opt_bin}:$PATH",
     }
     # Always write the wrapper so Homebrew links a real executable under keg/bin
     (bin/"imsg").write_env_script libexec/"bin/imsg", env
