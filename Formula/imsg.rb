@@ -26,8 +26,8 @@ class Imsg < Formula
     app_exec.chmod 0755 if app_exec.exist?
 
     # Vendor gems under libexec so the keg is self-contained
-    ENV["BUNDLE_WITHOUT"] = "development:test"
     ENV["BUNDLE_PATH"] = (libexec/"vendor/bundle").to_s
+    ENV["BUNDLE_WITHOUT"] = "development:test"
     ENV["BUNDLE_BIN"] = (libexec/"bin").to_s
 
     ENV["bundle_build__sqlite3"] = "--with-sqlite3-dir=#{Formula["sqlite"].opt_prefix}"
@@ -37,6 +37,11 @@ class Imsg < Formula
       system "bundle", "config", "set", "without", ENV["BUNDLE_WITHOUT"]
       system "bundle", "config", "set", "bin", ENV["BUNDLE_BIN"]
       system "bundle", "install"
+
+      # Remove build-time artifacts that may embed Homebrew shims paths (audit-clean)
+      rm Dir[libexec/"vendor/bundle/**/ext/**/{mkmf.log,config.log}"]
+      rm_r Dir[libexec/"vendor/bundle/**/ext/**/tmp"]
+      rm_r Dir[libexec/"vendor/bundle/**/cache"]
     end
 
     # Create a wrapper in bin/ that sets up env and calls the repo's bin/imsg
