@@ -9,25 +9,31 @@ class Imsg < Formula
   depends_on "ruby@3"
 
   def install
-    ENV["BUNDLE_VERSION"] = "system" # Avoid installing Bundler into the keg
-    ENV["GEM_HOME"] = libexec
+    # Ensure Bundler runs with brewed Ruby at build time
+    ENV.prepend_path "PATH", Formula["ruby@3"].opt_bin
 
-    system "bundle", "install"
+    # Keep project tree intact so `require_relative '../lib/...'` works.
+    libexec.install Dir["*"]
 
-    bin.install libexec/"bin/#{name}"
-    bin.env_script_all_files(libexec/"bin", GEM_HOME: ENV["GEM_HOME"])
+    cd libexec do
+      system "bundle", "config", "set", "path", libexec
+      system "bundle", "config", "set", "without", "development test"
+      system "bundle", "install"
+    end
+
+    ruby = Formula["ruby@3"].opt_bin/"ruby"
+
+    # Rewrite shebang to brew-ruby. See how this is done for python formulae:
+    #   - https://rubydoc.brew.sh/Utils/Shebang.html#rewrite_shebang-class_method
+    #   - https://rubydoc.brew.sh/Language/Python/Shebang.html#detected_python_shebang-class_method
+    inreplace libexec/"bin/#{name}", %r{^#!.*ruby( |$)}, "#!#{ruby}\\1"
+
+    # Expose the rewritten script (no PATH tricks needed now)
+    bin.write_exec_script libexec/"bin/#{name}"
   end
 
   test do
-    # `test do` will create, run in and delete a temporary directory.
-    #
-    # This test will fail and we won't accept that! For Homebrew/homebrew-core
-    # this will need to be a test that verifies the functionality of the
-    # software. Run the test with `brew test imsg`. Options passed
-    # to `brew install` such as `--HEAD` also need to be provided to `brew test`.
-    #
-    # The installed folder is not in the path, so use the entire path to any
-    # executables being tested: `system bin/"program", "do", "something"`.
-    system "false"
+    output = shell_output("#{bin}/#{name} --help")
+    assert_match "imsg export [options]", output
   end
 end
