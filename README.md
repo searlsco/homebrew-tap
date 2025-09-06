@@ -1,18 +1,5 @@
-# Searlsco Tap
+# Searls Stuff
 
-## How do I install these formulae?
+This [homebrew tap](https://docs.brew.sh/Taps) contains formula for the command-line utilities published by [Searls LLC](https://searls.co). Don't make a big deal out of it.
 
-`brew install searlsco/tap/<formula>`
-
-Or `brew tap searlsco/tap` and then `brew install <formula>`.
-
-Or, in a `brew bundle` `Brewfile`:
-
-```ruby
-tap "searlsco/tap"
-brew "<formula>"
-```
-
-## Documentation
-
-`brew help`, `man brew` or check [Homebrew's documentation](https://docs.brew.sh).
+* [imsg](https://github.com/searlsco/imsg) - a tool for analyzing and exporting archives from macOS Messages and Contacts databases
