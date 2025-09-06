@@ -1,8 +1,8 @@
 class Imsg < Formula
   desc "Export your iMessages into a portable web archive"
   homepage "https://github.com/searlsco/imsg"
-  url " .  . "
-  sha256 " .  . "
+  url ""
+  sha256 ""
   license "MIT"
   head "https://github.com/searlsco/imsg.git", branch: "main"
 
