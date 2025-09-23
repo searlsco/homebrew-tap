@@ -6,7 +6,7 @@ class Autochapter < Formula
   license "MIT"
 
   depends_on "ffmpeg"
-  uses_from_macos "python" => :run
+  uses_from_macos "python"
 
   def install
     bin.install "bin/autochapter"
