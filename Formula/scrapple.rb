@@ -6,22 +6,11 @@ class Scrapple < Formula
   license "MIT"
 
   depends_on "node"
-  uses_from_macos "python" => :build
 
   def install
-    # Install all deps (including devDependencies for tsc)
-    system "npm", "install"
-    system "npm", "run", "build"
-
-    # Reinstall without devDependencies for smaller footprint
-    system "npm", "prune", "--omit=dev"
-
-    libexec.install "dist", "node_modules", "package.json"
-
-    (bin/"scrapple").write <<~SH
-      #!/bin/bash
-      exec "#{Formula["node"].opt_bin}/node" "#{libexec}/dist/cli.js" "$@"
-    SH
+    system "npm", "install", *std_npm_args
+    libexec.install Dir["*"]
+    bin.install_symlink libexec/"dist/cli.js" => "scrapple"
   end
 
   def caveats
