@@ -6,8 +6,8 @@ class Scrapple < Formula
   license "MIT"
 
   depends_on "node"
-  depends_on "vips"
   depends_on "python" => :build
+  depends_on "vips"
 
   def install
     # Install deps locally, then copy to libexec
