@@ -10,7 +10,11 @@ class Scrapple < Formula
   def install
     system "npm", "install", *std_npm_args
     libexec.install Dir["*"]
-    bin.install_symlink libexec/"dist/cli.js" => "scrapple"
+
+    (bin/"scrapple").write <<~SH
+      #!/bin/bash
+      exec "#{Formula["node"].opt_bin}/node" "#{libexec}/dist/cli.js" "$@"
+    SH
   end
 
   def caveats
