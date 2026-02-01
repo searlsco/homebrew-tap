@@ -7,14 +7,9 @@ class Scrapple < Formula
 
   depends_on "python" => :build
   depends_on "node"
-  depends_on "vips"
 
   def install
-    # Use system vips instead of downloading prebuilt sharp binaries
-    ENV["SHARP_IGNORE_GLOBAL_LIBVIPS"] = "0"
-    ENV["npm_config_sharp_libvips_local_prebuilds"] = "0"
-
-    system "npm", "install", *std_npm_args, "--omit=dev", "--ignore-scripts=false", "--foreground-scripts"
+    system "npm", "install", *std_npm_args, "--omit=dev"
     libexec.install Dir["*"]
 
     (bin/"scrapple").write <<~SH
@@ -33,10 +28,16 @@ class Scrapple < Formula
 
       To sync Apple documentation:
         scrapple sync --human
+
+      Note: Semantic search is temporarily disabled while dependency
+      issues are resolved. Keyword search works normally.
     EOS
   end
 
   test do
     assert_match "Local Apple Developer Documentation", shell_output("#{bin}/scrapple --help")
+    # Verify native modules load correctly - exits 0 with JSON output
+    output = shell_output("#{bin}/scrapple status")
+    assert_match "total", output
   end
 end
