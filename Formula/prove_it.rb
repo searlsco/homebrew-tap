@@ -1,8 +1,8 @@
 class ProveIt < Formula
   desc "Verifiability-first hooks for Claude Code - enforce test-gated workflows"
   homepage "https://github.com/searlsco/prove_it"
-  url "https://github.com/searlsco/prove_it/archive/refs/tags/v0.0.3.tar.gz"
-  sha256 "702b40ebcaf18b261b0c3f151290e0a1329cc7d0d01a47c78b60890e5ea55e88"
+  url "https://github.com/searlsco/prove_it/archive/refs/tags/v0.0.4.tar.gz"
+  sha256 "7b7575ef8cc2d1e9dcb6193e5a8c6ef5246c5a04d05735790d4c8528884031f3"
   license "MIT"
   head "https://github.com/searlsco/prove_it.git", branch: "main"
 
