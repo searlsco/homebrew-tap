@@ -5,18 +5,22 @@ class Scrapple < Formula
   sha256 "4a8cd21d18501ebab4460b3c57d233fa849e9df0efe1f26b8f4075fbc2dd1c86"
   license "MIT"
 
-  depends_on "node@20"
+  depends_on "node"
   uses_from_macos "python" => :build
 
   def install
-    system "npm", "install", *std_npm_args
+    # Install all deps (including devDependencies for tsc)
+    system "npm", "install"
     system "npm", "run", "build"
+
+    # Reinstall without devDependencies for smaller footprint
+    system "npm", "prune", "--omit=dev"
 
     libexec.install "dist", "node_modules", "package.json"
 
     (bin/"scrapple").write <<~SH
       #!/bin/bash
-      exec "#{Formula["node@20"].opt_bin}/node" "#{libexec}/dist/cli.js" "$@"
+      exec "#{Formula["node"].opt_bin}/node" "#{libexec}/dist/cli.js" "$@"
     SH
   end
 
