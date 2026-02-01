@@ -5,8 +5,8 @@ class Scrapple < Formula
   sha256 "4d1c7369ff5b87ffc065505e237ff88d315352c141b2bf12fc2cf0282ac8e8b5"
   license "MIT"
 
-  depends_on "node"
   depends_on "python" => :build
+  depends_on "node"
   depends_on "vips"
 
   def install
