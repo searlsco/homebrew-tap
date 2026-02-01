@@ -9,7 +9,8 @@ class Scrapple < Formula
   depends_on "node"
 
   def install
-    system "npm", "install", *std_npm_args, "--omit=dev"
+    # Enable scripts for native module compilation (better-sqlite3, sqlite-vec)
+    system "npm", "install", *std_npm_args, "--omit=dev", "--ignore-scripts=false"
     libexec.install Dir["*"]
 
     (bin/"scrapple").write <<~SH
