@@ -10,8 +10,11 @@ class Scrapple < Formula
   depends_on "vips"
 
   def install
-    # Install deps locally, then copy to libexec
-    system "npm", "install", *std_npm_args, "--omit=dev"
+    # Use system vips instead of downloading prebuilt sharp binaries
+    ENV["SHARP_IGNORE_GLOBAL_LIBVIPS"] = "0"
+    ENV["npm_config_sharp_libvips_local_prebuilds"] = "0"
+
+    system "npm", "install", *std_npm_args, "--omit=dev", "--ignore-scripts=false", "--foreground-scripts"
     libexec.install Dir["*"]
 
     (bin/"scrapple").write <<~SH
