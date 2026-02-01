@@ -8,8 +8,8 @@ class Scrapple < Formula
   depends_on "node"
 
   def install
-    system "npm", "install", *std_npm_args
-    libexec.install Dir["*"]
+    system "npm", "install", "--omit=dev"
+    libexec.install "dist", "node_modules", "package.json"
 
     (bin/"scrapple").write <<~SH
       #!/bin/bash
