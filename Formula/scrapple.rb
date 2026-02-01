@@ -7,9 +7,10 @@ class Scrapple < Formula
 
   depends_on "python" => :build
   depends_on "node"
+  depends_on "vips"
 
   def install
-    # Enable scripts for native module compilation (better-sqlite3, sqlite-vec)
+    # Enable scripts for native module compilation (better-sqlite3, sqlite-vec, sharp)
     system "npm", "install", *std_npm_args, "--omit=dev", "--ignore-scripts=false"
     libexec.install Dir["*"]
 
@@ -29,9 +30,6 @@ class Scrapple < Formula
 
       To sync Apple documentation:
         scrapple sync --human
-
-      Note: Semantic search is temporarily disabled while dependency
-      issues are resolved. Keyword search works normally.
     EOS
   end
 
