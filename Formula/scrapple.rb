@@ -8,12 +8,13 @@ class Scrapple < Formula
   depends_on "node"
 
   def install
-    system "npm", "install", "--omit=dev"
-    libexec.install "dist", "node_modules", "package.json"
+    # Install deps locally, then copy to libexec
+    system "npm", "install", *std_npm_args, "--omit=dev"
+    libexec.install Dir["*"]
 
     (bin/"scrapple").write <<~SH
       #!/bin/bash
-      exec "#{Formula["node"].opt_bin}/node" "#{libexec}/dist/cli.js" "$@"
+      exec "#{Formula["node"].opt_bin}/node" "#{libexec}/lib/node_modules/scrapple/dist/cli.js" "$@"
     SH
   end
 
