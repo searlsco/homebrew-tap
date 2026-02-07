@@ -1,5 +1,5 @@
 class ProveIt < Formula
-  desc "Verifiability-first hooks for Claude Code - enforce test-gated workflows"
+  desc "Config-driven hook framework for Claude Code - enforce verified workflows"
   homepage "https://github.com/searlsco/prove_it"
   url "https://github.com/searlsco/prove_it/archive/refs/tags/v0.1.0.tar.gz"
   sha256 "21e7b6a77b653feb366f55430dcbbab67ba61e39d0198a7ef7d209cd1a03d406"
