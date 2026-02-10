@@ -1,8 +1,8 @@
 class ProveIt < Formula
   desc "Config-driven hook framework for Claude Code - enforce verified workflows"
   homepage "https://github.com/searlsco/prove_it"
-  url "https://github.com/searlsco/prove_it/archive/refs/tags/v0.7.0.tar.gz"
-  sha256 "92b3d184ffc6fa2b12ec508c7d74ba989f15ca91b1bfe662c872c4f74b1c1b99"
+  url "https://github.com/searlsco/prove_it/archive/refs/tags/v0.8.0.tar.gz"
+  sha256 "149993b3bdaeed5995e55a094f03d4e109236414982a395708ea4a4994aba9cd"
   license "MIT"
   head "https://github.com/searlsco/prove_it.git", branch: "main"
 
