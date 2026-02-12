@@ -11,10 +11,18 @@ class Scrapple < Formula
   def install
     # Install without running lifecycle scripts (avoids sharp native build —
     # scrapple only uses @xenova/transformers for text embeddings, not images)
-    system "npm", "install", *std_npm_args, "--omit=dev", "--ignore-scripts"
+    system "npm", "install", *std_npm_args, "--omit=dev"
+
+    # Replace the real sharp with our stub — scrapple never uses image processing
+    pkg_root = libexec/"lib/node_modules/scrapple"
+    sharp_dir = pkg_root/"node_modules/@xenova/transformers/node_modules/sharp"
+    if sharp_dir.exist?
+      rm_rf sharp_dir
+      cp_r pkg_root/"stubs/sharp", sharp_dir
+    end
 
     # Rebuild only the native modules we actually need
-    cd libexec/"lib/node_modules/scrapple" do
+    cd pkg_root do
       system "npm", "rebuild", "better-sqlite3"
     end
 
