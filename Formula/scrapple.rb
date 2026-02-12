@@ -7,12 +7,16 @@ class Scrapple < Formula
 
   depends_on "python" => :build
   depends_on "node"
-  depends_on "vips"
 
   def install
-    # Enable scripts for native module compilation (better-sqlite3, sqlite-vec, sharp)
-    system "npm", "install", *std_npm_args, "--omit=dev", "--ignore-scripts=false"
-    libexec.install Dir["*"]
+    # Install without running lifecycle scripts (avoids sharp native build —
+    # scrapple only uses @xenova/transformers for text embeddings, not images)
+    system "npm", "install", *std_npm_args, "--omit=dev", "--ignore-scripts"
+
+    # Rebuild only the native modules we actually need
+    cd libexec/"lib/node_modules/scrapple" do
+      system "npm", "rebuild", "better-sqlite3"
+    end
 
     (bin/"scrapple").write <<~SH
       #!/bin/bash
