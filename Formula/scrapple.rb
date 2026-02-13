@@ -17,7 +17,7 @@ class Scrapple < Formula
     pkg_root = libexec/"lib/node_modules/scrapple"
     sharp_dir = pkg_root/"node_modules/@xenova/transformers/node_modules/sharp"
     if sharp_dir.exist?
-      rm_rf sharp_dir
+      rm_r sharp_dir
       cp_r pkg_root/"stubs/sharp", sharp_dir
     end
 
