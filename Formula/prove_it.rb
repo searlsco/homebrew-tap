@@ -18,13 +18,13 @@ class ProveIt < Formula
     (bin/"prove_it").write_env_script libexec/"cli.js", PATH: "#{Formula["node"].opt_bin}:$PATH"
   end
 
-  def post_install
-    system bin/"prove_it", "install"
-  end
-
   def caveats
     <<~EOS
-      Global hooks have been installed to ~/.claude/
+      To complete installation, run:
+        prove_it install
+
+      This registers global hooks in ~/.claude/
+      Re-run after every upgrade to keep hooks current.
 
       To initialize a project, run from the repo root:
         prove_it init
