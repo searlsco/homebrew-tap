@@ -1,8 +1,8 @@
 class Turbocommit < Formula
   desc "Auto-commit after every Claude Code turn"
   homepage "https://github.com/searlsco/turbocommit"
-  url "https://github.com/searlsco/turbocommit/archive/refs/tags/v0.5.2.tar.gz"
-  sha256 "c1bf1e075f7a39f63f69021530b9f71c5893aaeb971bbbd39ad14e311c5bdd5a"
+  url "https://github.com/searlsco/turbocommit/archive/refs/tags/v0.6.0.tar.gz"
+  sha256 "d2b14ee123c1c385737bd62e9ad7d50e561582ae38776bb6f2daed4fed7f88c5"
   license "MIT"
   head "https://github.com/searlsco/turbocommit.git", branch: "main"
 
