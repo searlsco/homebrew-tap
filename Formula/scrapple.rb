@@ -1,8 +1,8 @@
 class Scrapple < Formula
   desc "Local Apple Developer Documentation scraper and search tool"
   homepage "https://github.com/searlsco/scrapple"
-  url "https://github.com/searlsco/scrapple/archive/refs/tags/v0.0.7.tar.gz"
-  sha256 "7982624f5ee3832e949be19c84a43e2ccf7f82ce377ee207250c0c2e2b51a672"
+  url "https://github.com/searlsco/scrapple/archive/refs/tags/v0.0.8.tar.gz"
+  sha256 "a61244905af1bf9f5e6da540c98c41cfd8fafa4354e0eb76ea77fbf75eaf5091"
   license "MIT"
 
   depends_on "python" => :build
