@@ -16,7 +16,7 @@ class Imsg < Formula
 
   def install
     # Ensure Bundler uses brewed Ruby during build
-    ENV.prepend_path "PATH", Formula["ruby@3"].opt_bin
+    ENV.prepend_path "PATH", formula_opt_bin("ruby@3")
 
     # Keep project tree intact so require_relative works
     libexec.install Dir["*"]
@@ -30,7 +30,7 @@ class Imsg < Formula
     ENV["BUNDLE_WITHOUT"] = "development:test"
     ENV["BUNDLE_BIN"] = (libexec/"bin").to_s
 
-    ENV["bundle_build__sqlite3"] = "--with-sqlite3-dir=#{Formula["sqlite"].opt_prefix}"
+    ENV["bundle_build__sqlite3"] = "--with-sqlite3-dir=#{formula_opt_prefix("sqlite")}"
 
     cd libexec do
       system "bundle", "config", "set", "path", ENV["BUNDLE_PATH"]
@@ -50,7 +50,7 @@ class Imsg < Formula
       GEM_PATH:       ENV["BUNDLE_PATH"],
       BUNDLE_GEMFILE: (libexec/"Gemfile").to_s,
       RUBYLIB:        (libexec/"lib").to_s,
-      PATH:           "#{Formula["ruby@3"].opt_bin}:$PATH",
+      PATH:           "#{formula_opt_bin("ruby@3")}:$PATH",
     }
     # Always write the wrapper so Homebrew links a real executable under keg/bin
     (bin/"imsg").write_env_script libexec/"bin/imsg", env

@@ -15,7 +15,7 @@ class Turbocommit < Formula
 
   def install
     libexec.install Dir["*"]
-    (bin/"turbocommit").write_env_script libexec/"cli.js", PATH: "#{Formula["node"].opt_bin}:$PATH"
+    (bin/"turbocommit").write_env_script libexec/"cli.js", PATH: "#{formula_opt_bin("node")}:$PATH"
   end
 
   def caveats

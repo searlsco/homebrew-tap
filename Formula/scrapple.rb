@@ -28,7 +28,7 @@ class Scrapple < Formula
 
     (bin/"scrapple").write <<~SH
       #!/bin/bash
-      exec "#{Formula["node"].opt_bin}/node" "#{libexec}/lib/node_modules/scrapple/dist/cli.js" "$@"
+      exec "#{formula_opt_bin("node")}/node" "#{libexec}/lib/node_modules/scrapple/dist/cli.js" "$@"
     SH
   end
 
