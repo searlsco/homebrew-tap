@@ -1,8 +1,8 @@
 class OrderTaker < Formula
   desc "GitHub-driven agent sessions: issues in, PRs out, via Claude Code or Codex"
   homepage "https://github.com/searlsco/order_taker"
-  url "https://github.com/searlsco/order_taker/archive/refs/tags/v0.2.1.tar.gz"
-  sha256 "8e548485a8c193e32aece36bc41058d37269a335ddce1316b3c237ee45706f52"
+  url "https://github.com/searlsco/order_taker/archive/refs/tags/v0.3.0.tar.gz"
+  sha256 "755a16aa615fb893d5dfbaf19f18d41b8f70cbfc04c5cd4e63ac4c8d415b32ee"
   license "MIT"
   head "https://github.com/searlsco/order_taker.git", branch: "main"
 
