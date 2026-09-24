@@ -9,26 +9,26 @@ class Scrapple < Formula
   depends_on "node"
 
   def install
-    # Install without running lifecycle scripts (avoids sharp native build —
-    # scrapple only uses @xenova/transformers for text embeddings, not images)
-    system "npm", "install", *std_npm_args, "--omit=dev"
+    # Install in-tree against the lockfile instead of Homebrew's default
+    # pack-then-global-install. package.json lists @huggingface/transformers in
+    # bundleDependencies, so `npm pack` on a clean checkout emits a tarball that
+    # claims to bundle it while shipping nothing; installing that tarball makes
+    # npm skip the registry fetch and drop the dependency, exit 0, no warning.
+    # `npm ci` also applies the overrides entry pointing sharp at stubs/sharp,
+    # which the global install drops -- transformers statically imports sharp at
+    # load time, and the stub satisfies that without ~16MB of @img/* binaries.
+    system "npm", "ci", *std_npm_args(prefix: false), "--omit=dev"
 
-    # Replace the real sharp with our stub — scrapple never uses image processing
-    pkg_root = libexec/"lib/node_modules/scrapple"
-    sharp_dir = pkg_root/"node_modules/@xenova/transformers/node_modules/sharp"
-    if sharp_dir.exist?
-      rm_r sharp_dir
-      cp_r pkg_root/"stubs/sharp", sharp_dir
-    end
+    # Lifecycle scripts are skipped above, so build the one native module we need
+    system "npm", "rebuild", "better-sqlite3"
 
-    # Rebuild only the native modules we actually need
-    cd pkg_root do
-      system "npm", "rebuild", "better-sqlite3"
-    end
+    # node_modules/sharp is a relative symlink to ../stubs/sharp, so it stays
+    # valid as long as stubs/ travels with the tree
+    libexec.install Dir["*"]
 
     (bin/"scrapple").write <<~SH
       #!/bin/bash
-      exec "#{formula_opt_bin("node")}/node" "#{libexec}/lib/node_modules/scrapple/dist/cli.js" "$@"
+      exec "#{formula_opt_bin("node")}/node" "#{libexec}/dist/cli.js" "$@"
     SH
   end
 
