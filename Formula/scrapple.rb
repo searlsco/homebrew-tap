@@ -35,10 +35,7 @@ class Scrapple < Formula
   def caveats
     <<~EOS
       Scrapple uses Playwright for WWDC transcript extraction.
-      On first sync, Playwright will download Chromium (~150MB).
-
-      To pre-install the browser:
-        npx playwright install chromium
+      Each sync installs the Chromium build it needs (~150MB) if missing.
 
       To sync Apple documentation:
         scrapple sync --human
