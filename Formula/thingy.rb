@@ -1,8 +1,8 @@
 class Thingy < Formula
   desc "JSON command-line interface to Things 3"
   homepage "https://github.com/searlsco/thingy"
-  url "https://github.com/searlsco/thingy/archive/refs/tags/v0.1.1.tar.gz"
-  sha256 "8872692435372d6f9874ad9192c7a6831114d794c2b5577b0251471e39341d46"
+  url "https://github.com/searlsco/thingy/archive/refs/tags/v0.1.2.tar.gz"
+  sha256 "c7a4e9f8b2c2036f9e733a6d095d787ac1d5e04e5e81cc85eba58e656934c689"
   license "MIT"
   head "https://github.com/searlsco/thingy.git", branch: "main"
 
