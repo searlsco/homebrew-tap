@@ -11,3 +11,5 @@ This [homebrew tap](https://docs.brew.sh/Taps) contains formula for the command-
 * [scrapple](https://github.com/searlsco/scrapple) - local Apple Developer Documentation scraper and search tool
 
 * [turbocommit](https://github.com/searlsco/turbocommit) - auto-commit after every Claude Code turn
+
+* [thingy](https://github.com/searlsco/thingy) - provides a JSON command-line interface to Things 3
