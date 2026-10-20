@@ -12,4 +12,6 @@ This [homebrew tap](https://docs.brew.sh/Taps) contains formula for the command-
 
 * [turbocommit](https://github.com/searlsco/turbocommit) - auto-commit after every Claude Code turn
 
+* [glaze_against_the_machine](https://github.com/searlsco/glaze_against_the_machine) - rewrites frustrated prompts before they reach a coding agent
+
 * [thingy](https://github.com/searlsco/thingy) - provides a JSON command-line interface to Things 3
